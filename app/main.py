@@ -10,10 +10,14 @@ def main():
     server = socket.create_server(("localhost", 9092), reuse_port=True)
     conn, _ = server.accept()
     data = conn.recv(256)
+    correlation_id = data[8:12]
+    api_version = int.from_bytes(data[6:8], "big")
+
     # print(data.hex())
-
-
-    conn.sendall(struct.pack(">i", 0) + data[8:12])
+    if api_version <= 4:
+        conn.sendall(struct.pack(">i", 2) + data[8:12])
+    else:
+        conn.sendall(struct.pack(">i", 0) + data[8:12] + struct.pack(">h", 35))
 
 
 if __name__ == "__main__":
