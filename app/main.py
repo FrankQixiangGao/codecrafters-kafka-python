@@ -11,7 +11,9 @@ def main():
     conn, _ = server.accept()
     data = conn.recv(256)
     # print(data.hex())
-    conn.sendall(struct.pack(">ii", 0, data[8:12]))
+
+
+    conn.sendall(struct.pack(">i", 0) + data[8:12])
 
 
 if __name__ == "__main__":
