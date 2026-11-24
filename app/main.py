@@ -1,5 +1,5 @@
 import socket  # noqa: F401
-import struck
+import struct
 
 def main():
     # You can use print statements as follows for debugging,
