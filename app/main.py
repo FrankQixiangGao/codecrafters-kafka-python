@@ -10,12 +10,15 @@ def main():
     server = socket.create_server(("localhost", 9092), reuse_port=True)
     conn, _ = server.accept()
     data = conn.recv(256)
+    supported_apis = [
+    (18),
+    ]
     message_size = 0
     correlation_id = data[8:12]
     api_version = int.from_bytes(data[6:8], "big")
     err_code = 0 if api_version <= 4 else 35
     api_keys = data[4:6]
-    api_keys_len = len(api_keys) + 1
+    api_keys_len = len(supported_apis) + 1
     api_key_size = 0
     min_version = 0
     max_version = 4
@@ -28,7 +31,7 @@ def main():
         + struct.pack(">b", api_keys_len)
         + api_keys
         + struct.pack(">h", min_version)
-        + struct.pack(">b", max_version)
+        + struct.pack(">h", max_version)
         + struct.pack(">b", tag_buffer)
         + struct.pack(">i", throttle_time_ms)
         + struct.pack(">b", tag_buffer)
