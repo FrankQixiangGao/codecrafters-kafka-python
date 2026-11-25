@@ -15,6 +15,7 @@ def main():
     api_version = int.from_bytes(data[6:8], "big")
     err_code = 0 if api_version <= 4 else 35
     api_keys = data[4:6]
+    api_keys_len = len(api_keys) + 1
     api_key_size = 0
     min_version = 0
     max_version = 4
@@ -24,6 +25,7 @@ def main():
     # b = 1, h = 2, i = 4, q = 8
     body = (
         struct.pack(">h", err_code)
+        + struct.pack(">b", api_keys_len)
         + api_keys
         + struct.pack(">h", min_version)
         + struct.pack(">h", max_version)
