@@ -28,7 +28,7 @@ def main():
         + struct.pack(">b", api_keys_len)
         + api_keys
         + struct.pack(">h", min_version)
-        + struct.pack(">h", max_version)
+        + struct.pack(">b", max_version)
         + struct.pack(">b", tag_buffer)
         + struct.pack(">i", throttle_time_ms)
         + struct.pack(">b", tag_buffer)
